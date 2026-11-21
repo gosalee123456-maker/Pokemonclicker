@@ -1,0 +1,3906 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pokemon World Clicker 11.0</title>
+
+<style>
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    background: #101426;
+    color: white;
+    font-family: Arial, sans-serif;
+}
+
+button {
+    cursor: pointer;
+    border: none;
+    border-radius: 9px;
+    padding: 11px;
+    color: white;
+    background: #536dfe;
+    font-weight: bold;
+    transition: .2s;
+}
+
+button:hover {
+    filter: brightness(1.15);
+}
+
+button:disabled {
+    opacity: .4;
+    cursor: not-allowed;
+}
+
+header {
+    background: #1c2440;
+    padding: 13px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.logo {
+    font-size: 20px;
+    font-weight: bold;
+    color: #ffcb45;
+}
+
+.resources {
+    display: flex;
+    gap: 7px;
+    flex-wrap: wrap;
+}
+
+.resource {
+    background: #293454;
+    padding: 9px 11px;
+    border-radius: 9px;
+    font-size: 13px;
+}
+
+nav {
+    display: flex;
+    overflow-x: auto;
+    gap: 6px;
+    padding: 10px;
+    background: #171e35;
+}
+
+nav button {
+    min-width: 85px;
+    white-space: nowrap;
+    background: #303b60;
+}
+
+nav button.active {
+    background: #657cff;
+}
+
+main {
+    max-width: 1250px;
+    margin: auto;
+    padding: 14px;
+}
+
+.panel {
+    background: #1d2743;
+    padding: 17px;
+    border-radius: 14px;
+    margin-bottom: 14px;
+}
+
+h2 {
+    margin-top: 0;
+    color: #ffcf59;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit,minmax(205px,1fr));
+    gap: 11px;
+}
+
+.card {
+    background: #293454;
+    border-radius: 12px;
+    padding: 13px;
+    text-align: center;
+}
+
+.card img {
+    width: 105px;
+    height: 105px;
+    object-fit: contain;
+}
+
+.card button {
+    width: 100%;
+    margin-top: 7px;
+}
+
+.card select {
+    width: 100%;
+    margin-top: 8px;
+}
+
+.item-image {
+    width: 55px !important;
+    height: 55px !important;
+}
+
+.click-area {
+    text-align: center;
+    padding: 25px 10px;
+}
+
+.main-pokemon {
+    width: 220px;
+    max-width: 60vw;
+    cursor: pointer;
+    filter: drop-shadow(0 0 18px #718aff);
+    transition: .12s;
+}
+
+.main-pokemon:active {
+    transform: scale(.86);
+}
+
+.click-button {
+    display: block;
+    margin: 17px auto;
+    width: 230px;
+    font-size: 20px;
+    padding: 17px;
+    background: linear-gradient(120deg,#536dfe,#9c55ff);
+}
+
+.tag {
+    display: inline-block;
+    background: #485b8d;
+    border-radius: 20px;
+    padding: 4px 9px;
+    font-size: 11px;
+    margin: 3px;
+}
+
+.price {
+    color: #ffce54;
+    font-weight: bold;
+}
+
+.gold {
+    color: #ffda70;
+}
+
+.purple {
+    color: #d59aff;
+}
+
+.muted {
+    color: #aab4d0;
+    font-size: 12px;
+}
+
+.progress {
+    background: #111a30;
+    height: 12px;
+    border-radius: 20px;
+    overflow: hidden;
+    margin: 10px 0;
+}
+
+.progress div {
+    height: 100%;
+    background: linear-gradient(90deg,#536dfe,#d17aff);
+}
+
+input, select {
+    background: #111a30;
+    border: 1px solid #536dfe;
+    padding: 11px;
+    border-radius: 8px;
+    color: white;
+    margin: 4px;
+    max-width: 100%;
+}
+
+hr {
+    border-color: #394769;
+    margin: 17px 0;
+}
+
+.float {
+    position: fixed;
+    pointer-events: none;
+    color: #ffdb62;
+    font-weight: bold;
+    font-size: 21px;
+    animation: pop .8s forwards;
+    z-index: 100;
+}
+
+@keyframes pop {
+    to {
+        opacity: 0;
+        transform: translateY(-90px) scale(1.4);
+    }
+}
+
+footer {
+    text-align: center;
+    color: #8995b5;
+    padding: 25px;
+}
+
+.danger-button {
+    background: #d94355;
+}
+
+.secondary-button {
+    background: #39496f;
+}
+
+@media (orientation: landscape) and (max-height: 600px) {
+
+    header {
+        padding: 7px 12px;
+    }
+
+    nav {
+        padding: 6px;
+    }
+
+    main {
+        max-width: 1500px;
+    }
+
+    .click-area {
+        padding: 8px;
+    }
+
+    .main-pokemon {
+        width: 140px;
+    }
+
+    .click-button {
+        margin: 8px auto;
+        padding: 11px;
+    }
+
+    .grid {
+        grid-template-columns: repeat(auto-fit,minmax(180px,1fr));
+    }
+
+}
+
+@media(max-width:600px) {
+
+    header {
+        align-items: flex-start;
+    }
+
+    .main-pokemon {
+        width: 165px;
+    }
+
+    .resources {
+        font-size: 11px;
+    }
+
+    .grid {
+        grid-template-columns: repeat(2,minmax(0,1fr));
+    }
+
+    .card {
+        padding: 9px;
+    }
+
+    .card img {
+        width: 85px;
+        height: 85px;
+    }
+
+}
+</style>
+</head>
+
+<body>
+
+<header>
+
+    <div class="logo">
+        ⚡ POKEMON WORLD CLICKER 11.0
+    </div>
+
+    <div class="resources">
+
+        <div class="resource">
+            🪙 <span id="coins">0</span>
+        </div>
+
+        <div class="resource">
+            ⭐ <span id="shards">0</span>
+        </div>
+
+        <div class="resource">
+            🌌 <span id="cores">0</span>
+        </div>
+
+        <div class="resource">
+            💎 <span id="fragments">0</span>
+        </div>
+
+    </div>
+
+</header>
+
+<nav>
+
+    <button data-tab="home" class="active">🏠 홈</button>
+    <button data-tab="gacha">🎰 뽑기</button>
+    <button data-tab="pokemon">🐉 포켓몬</button>
+    <button data-tab="shop">⚡ 강화</button>
+    <button data-tab="rift">🌌 차원</button>
+    <button data-tab="endgame">♾️ 무한</button>
+    <button data-tab="collection">📖 도감</button>
+    <button data-tab="account">👤 계정</button>
+    <button data-tab="settings">⚙️ 설정</button>
+
+</nav>
+
+<main>
+    <div id="view"></div>
+</main>
+
+<footer>
+    Pokemon World Clicker 11.0
+    <br>
+    Fan-made game project
+</footer>
+
+
+<script type="module">
+
+/* =====================================
+   1. 포켓몬 데이터
+===================================== */
+
+const POKEMON = [
+
+{id:"bulbasaur",name:"이상해씨",dex:1,type:"풀",income:2,rarity:"일반",weight:15,evo:"ivysaur",stage:1},
+
+{id:"ivysaur",name:"이상해풀",dex:2,type:"풀",income:15,rarity:"희귀",evo:"venusaur",stage:2},
+
+{id:"venusaur",name:"이상해꽃",dex:3,type:"풀",income:100,rarity:"전설",stage:3,mega:["일반"],gmax:true},
+
+{id:"charmander",name:"파이리",dex:4,type:"불꽃",income:3,rarity:"일반",weight:15,evo:"charmeleon",stage:1},
+
+{id:"charmeleon",name:"리자드",dex:5,type:"불꽃",income:20,rarity:"희귀",evo:"charizard",stage:2},
+
+{id:"charizard",name:"리자몽",dex:6,type:"불꽃",income:150,rarity:"전설",stage:3,mega:["X","Y"],gmax:true},
+
+{id:"squirtle",name:"꼬부기",dex:7,type:"물",income:3,rarity:"일반",weight:15,evo:"wartortle",stage:1},
+
+{id:"wartortle",name:"어니부기",dex:8,type:"물",income:20,rarity:"희귀",evo:"blastoise",stage:2},
+
+{id:"blastoise",name:"거북왕",dex:9,type:"물",income:150,rarity:"전설",stage:3,mega:["일반"],gmax:true},
+
+{id:"caterpie",name:"캐터피",dex:10,type:"벌레",income:2,rarity:"일반",weight:12,evo:"metapod",stage:1},
+
+{id:"metapod",name:"단데기",dex:11,type:"벌레",income:10,rarity:"희귀",evo:"butterfree",stage:2},
+
+{id:"butterfree",name:"버터플",dex:12,type:"벌레",income:70,rarity:"에픽",stage:3},
+
+{id:"pidgey",name:"구구",dex:16,type:"비행",income:3,rarity:"일반",weight:12,evo:"pidgeotto",stage:1},
+
+{id:"pidgeotto",name:"피죤",dex:17,type:"비행",income:15,rarity:"희귀",evo:"pidgeot",stage:2},
+
+{id:"pidgeot",name:"피죤투",dex:18,type:"비행",income:90,rarity:"에픽",stage:3},
+
+{id:"pikachu",name:"피카츄",dex:25,type:"전기",income:15,rarity:"희귀",weight:8,stage:1,gmax:true},
+
+{id:"vulpix",name:"식스테일",dex:37,type:"불꽃",income:20,rarity:"희귀",weight:8,evo:"ninetales",stage:1},
+
+{id:"ninetales",name:"나인테일",dex:38,type:"불꽃",income:150,rarity:"전설",stage:2},
+
+{id:"gastly",name:"고오스",dex:92,type:"고스트",income:30,rarity:"희귀",weight:7,evo:"haunter",stage:1},
+
+{id:"haunter",name:"고우스트",dex:93,type:"고스트",income:150,rarity:"에픽",evo:"gengar",stage:2},
+
+{id:"gengar",name:"팬텀",dex:94,type:"고스트",income:1000,rarity:"전설",stage:3,mega:["일반"],gmax:true},
+
+{id:"eevee",name:"이브이",dex:133,type:"노말",income:50,rarity:"희귀",weight:6,stage:1,gmax:true},
+
+{id:"mewtwo",name:"뮤츠",dex:150,type:"에스퍼",income:10000,rarity:"전설",weight:1,stage:1},
+
+{id:"mew",name:"뮤",dex:151,type:"에스퍼",income:8000,rarity:"환상",weight:1,stage:1},
+
+{id:"larvitar",name:"애버라스",dex:246,type:"바위",income:100,rarity:"희귀",weight:5,evo:"pupitar",stage:1},
+
+{id:"pupitar",name:"데기라스",dex:247,type:"바위",income:600,rarity:"에픽",evo:"tyranitar",stage:2},
+
+{id:"tyranitar",name:"마기라스",dex:248,type:"악",income:5000,rarity:"전설",stage:3,mega:["일반"]},
+
+{id:"lugia",name:"루기아",dex:249,type:"에스퍼",income:20000,rarity:"전설",weight:0.5,stage:1},
+
+{id:"hooh",name:"칠색조",dex:250,type:"불꽃",income:20000,rarity:"전설",weight:0.5,stage:1},
+
+{id:"torchic",name:"아차모",dex:255,type:"불꽃",income:100,rarity:"희귀",weight:5,evo:"combusken",stage:1},
+
+{id:"combusken",name:"영치코",dex:256,type:"격투",income:600,rarity:"에픽",evo:"blaziken",stage:2},
+
+{id:"blaziken",name:"번치코",dex:257,type:"불꽃",income:5000,rarity:"전설",stage:3,mega:["일반"]},
+
+{id:"mudkip",name:"물짱이",dex:258,type:"물",income:100,rarity:"희귀",weight:5,evo:"marshtomp",stage:1},
+
+{id:"marshtomp",name:"늪짱이",dex:259,type:"물",income:600,rarity:"에픽",evo:"swampert",stage:2},
+
+{id:"swampert",name:"대짱이",dex:260,type:"물",income:5000,rarity:"전설",stage:3,mega:["일반"]},
+
+{id:"ralts",name:"랄토스",dex:280,type:"에스퍼",income:150,rarity:"희귀",weight:5,evo:"kirlia",stage:1},
+
+{id:"kirlia",name:"킬리아",dex:281,type:"에스퍼",income:900,rarity:"에픽",evo:"gardevoir",stage:2},
+
+{id:"gardevoir",name:"가디안",dex:282,type:"에스퍼",income:7000,rarity:"전설",stage:3,mega:["일반"]},
+
+{id:"kyogre",name:"가이오가",dex:382,type:"물",income:50000,rarity:"전설",weight:0.3,stage:1},
+
+{id:"groudon",name:"그란돈",dex:383,type:"땅",income:50000,rarity:"전설",weight:0.3,stage:1},
+
+{id:"rayquaza",name:"레쿠쟈",dex:384,type:"드래곤",income:100000,rarity:"전설",weight:0.2,stage:1,mega:["일반"]},
+
+{id:"jirachi",name:"지라치",dex:385,type:"강철",income:70000,rarity:"환상",weight:0.2,stage:1},
+
+{id:"gible",name:"딥상어동",dex:443,type:"드래곤",income:300,rarity:"희귀",weight:3,evo:"gabite",stage:1},
+
+{id:"gabite",name:"한바이트",dex:444,type:"드래곤",income:2000,rarity:"에픽",evo:"garchomp",stage:2},
+
+{id:"garchomp",name:"한카리아스",dex:445,type:"드래곤",income:15000,rarity:"전설",stage:3,mega:["일반"]},
+
+{id:"riolu",name:"리오르",dex:447,type:"격투",income:500,rarity:"희귀",weight:3,evo:"lucario",stage:1},
+
+{id:"lucario",name:"루카리오",dex:448,type:"격투",income:10000,rarity:"전설",stage:2,mega:["일반"]},
+
+{id:"arceus",name:"아르세우스",dex:493,type:"노말",income:1000000,rarity:"환상",weight:0.1,stage:1}
+
+];
+
+const PM = Object.fromEntries(
+    POKEMON.map(p=>[p.id,p])
+);
+
+const GACHA_POOL = POKEMON.filter(
+    p=>p.stage===1
+);
+
+
+/* =====================================
+   2. 아이템 데이터
+===================================== */
+
+const ITEMS = [
+
+{id:"amulet",name:"부적금화",sprite:"amulet-coin",type:"노말",bonus:.15,gain:.05,price:500},
+
+{id:"lucky",name:"행복의알",sprite:"lucky-egg",type:"노말",bonus:.20,gain:.06,price:2000},
+
+{id:"leftovers",name:"먹다남은음식",sprite:"leftovers",type:"노말",bonus:.15,gain:.05,price:5000},
+
+{id:"exp",name:"학습장치",sprite:"exp-share",type:"노말",bonus:.25,gain:.07,price:12000},
+
+{id:"choice",name:"구애머리띠",sprite:"choice-band",type:"노말",bonus:.35,gain:.08,price:30000},
+
+{id:"life",name:"생명의구슬",sprite:"life-orb",type:"노말",bonus:.50,gain:.10,price:80000},
+
+{id:"charcoal",name:"목탄",sprite:"charcoal",type:"불꽃",bonus:.25,gain:.06,price:50000},
+
+{id:"water",name:"신비의물방울",sprite:"mystic-water",type:"물",bonus:.25,gain:.06,price:50000},
+
+{id:"magnet",name:"자석",sprite:"magnet",type:"전기",bonus:.25,gain:.06,price:50000},
+
+{id:"seed",name:"기적의씨",sprite:"miracle-seed",type:"풀",bonus:.25,gain:.06,price:50000},
+
+{id:"dragon",name:"용의이빨",sprite:"dragon-fang",type:"드래곤",bonus:.40,gain:.10,price:150000},
+
+{id:"belt",name:"검은띠",sprite:"black-belt",type:"격투",bonus:.25,gain:.06,price:90000},
+
+{id:"spoon",name:"휘어진스푼",sprite:"twisted-spoon",type:"에스퍼",bonus:.25,gain:.07,price:120000},
+
+{id:"beak",name:"예리한부리",sprite:"sharp-beak",type:"비행",bonus:.25,gain:.06,price:90000},
+
+{id:"metal",name:"금속코트",sprite:"metal-coat",type:"강철",bonus:.35,gain:.09,price:200000},
+
+{id:"eviolite",name:"진화의휘석",sprite:"eviolite",type:"노말",bonus:.30,gain:.08,price:250000},
+
+{id:"kingsrock",name:"왕의징표석",sprite:"kings-rock",type:"노말",bonus:.75,gain:.15,price:1000000}
+
+];
+
+
+/* =====================================
+   3. 기본 게임 데이터
+===================================== */
+
+function createOwned(count=1,level=1) {
+
+    return {
+
+        count,
+        level,
+
+        items:[],
+
+        megaUnlocked:[],
+        megaActive:"",
+
+        gmaxUnlocked:false,
+        gmaxActive:false
+
+    };
+
+}
+
+function defaultGame() {
+
+    return {
+
+        coins:0,
+        lifetime:0,
+
+        clickLevel:0,
+        autoLevel:0,
+        globalLevel:0,
+
+        gachaCount:0,
+        pity:0,
+        lastPulls:[],
+
+        rebirth:0,
+        shards:0,
+
+        transcend:0,
+        cores:0,
+
+        floor:0,
+        riftDamage:0,
+        fragments:0,
+
+        infinityLevel:0,
+
+        totalClicks:0,
+
+        owned:{
+            pikachu:createOwned(1)
+        },
+
+        dexSeen:{
+            pikachu:true
+        },
+
+        itemBag:{},
+        itemLevels:{},
+        relics:{},
+
+        lastSeen:Date.now()
+
+    };
+
+}
+
+
+/* =====================================
+   4. 저장 데이터 보정
+===================================== */
+
+function normalize(data) {
+
+    const base=defaultGame();
+
+    const result={
+        ...base,
+        ...(data||{})
+    };
+
+    result.owned=data?.owned || {};
+
+    result.itemBag=data?.itemBag || {};
+    result.itemLevels=data?.itemLevels || {};
+    result.relics=data?.relics || {};
+
+    result.dexSeen=data?.dexSeen || {};
+
+    result.lastPulls=Array.isArray(data?.lastPulls)
+        ?data.lastPulls:[ ];
+
+    for(const id of Object.keys(result.owned)) {
+
+        const own=result.owned[id];
+
+        if(!PM[id] || !own) {
+
+            delete result.owned[id];
+
+            continue;
+
+        }
+
+        own.count=Math.max(
+            0,
+            Number(own.count)||0
+        );
+
+        own.level=Math.max(
+            1,
+            Number(own.level)||1
+        );
+
+        own.items=Array.isArray(own.items)
+            ?own.items:[];
+
+        own.megaUnlocked=Array.isArray(own.megaUnlocked)
+            ?own.megaUnlocked:[];
+
+        own.megaActive=own.megaActive||"";
+
+        own.gmaxUnlocked=!!own.gmaxUnlocked;
+
+        own.gmaxActive=!!own.gmaxActive;
+
+        if(own.count<=0) {
+
+            delete result.owned[id];
+
+            continue;
+
+        }
+
+        result.dexSeen[id]=true;
+
+    }
+
+    // 시작 포켓몬 누락 오류 보정
+    if(!result.owned.pikachu) {
+
+        result.owned.pikachu=createOwned(1);
+
+    }
+
+    result.dexSeen.pikachu=true;
+
+    return result;
+
+}
+
+function loadLocal() {
+
+    try {
+
+        const raw=localStorage.getItem(
+            "pokemonWorldSave"
+        );
+
+        if(raw) {
+
+            return normalize(JSON.parse(raw));
+
+        }
+
+    } catch(e) {
+
+        console.error(e);
+
+    }
+
+    return defaultGame();
+
+}
+
+let game=loadLocal();
+
+let tab="home";
+
+let combo=0;
+let lastClick=0;
+
+let auth=null;
+let db=null;
+let user=null;
+
+let cloudTimer=null;
+
+
+/* =====================================
+   5. 경제 밸런스
+===================================== */
+
+// 포켓몬 자동 생산 수익 85% 감소
+const PASSIVE_ECONOMY_RATE=.15;
+
+function globalMultiplier() {
+
+    const relicLevel=Object.values(game.relics)
+        .reduce((a,b)=>a+b,0);
+
+    return (
+
+        1+
+
+        game.globalLevel*.15+
+
+        game.shards*.03+
+
+        game.cores*.08+
+
+        relicLevel*.10+
+
+        game.infinityLevel*.10
+
+    );
+
+}
+
+function clickValue() {
+
+    return (
+
+        .5+
+
+        game.clickLevel*1.25
+
+    )*globalMultiplier();
+
+}
+
+function pokemonBonus(p,own) {
+
+    let bonus=0;
+
+    for(const itemId of own.items||[]) {
+
+        const item=ITEMS.find(
+            x=>x.id===itemId
+        );
+
+        if(!item) continue;
+
+        const lv=game.itemLevels[itemId]||0;
+
+        bonus+=item.bonus+lv*item.gain;
+
+        if(item.type===p.type) {
+
+            bonus+=.25;
+
+        }
+
+    }
+
+    return bonus;
+
+}
+
+function incomePerSecond() {
+
+    let total=0;
+
+    for(const id in game.owned) {
+
+        const own=game.owned[id];
+
+        const p=PM[id];
+
+        if(!p) continue;
+
+        let formMultiplier=1;
+
+        if(own.megaActive) {
+
+            formMultiplier=1.5;
+
+        } else if(own.gmaxActive) {
+
+            formMultiplier=1.75;
+
+        }
+
+        total+=
+
+            own.count*
+
+            p.income*
+
+            PASSIVE_ECONOMY_RATE*
+
+            (1+(own.level-1)*.18)*
+
+            (1+pokemonBonus(p,own))*
+
+            formMultiplier;
+
+    }
+
+    total*=globalMultiplier();
+
+    total+=game.autoLevel*clickValue()*.15;
+
+    return total;
+
+}
+
+
+/* =====================================
+   6. 숫자 표시
+===================================== */
+
+function fmt(n) {
+
+    if(!Number.isFinite(n)) {
+
+        return "∞";
+
+    }
+
+    if(n<1000) {
+
+        if(n<10 && !Number.isInteger(n)) {
+
+            return n.toFixed(2);
+
+        }
+
+        return Math.floor(n).toLocaleString();
+
+    }
+
+    const units=[
+        "K","M","B","T","Qa","Qi","Sx","Sp","Oc","No"
+    ];
+
+    let i=-1;
+
+    while(n>=1000 && i<units.length-1) {
+
+        n/=1000;
+        i++;
+
+    }
+
+    if(n>=1000) {
+
+        return n.toExponential(2);
+
+    }
+
+    return n.toFixed(2)+units[i];
+
+}
+
+function fmtPercent(n) {
+
+    return (n*100).toFixed(3)+"%";
+
+}
+
+
+/* =====================================
+   7. 코인 및 오프라인 보상
+===================================== */
+
+function addCoins(n) {
+
+    if(!Number.isFinite(n)||n<=0) return;
+
+    game.coins+=n;
+
+    game.lifetime+=n;
+
+}
+
+function grantOffline() {
+
+    const now=Date.now();
+
+    const elapsed=Math.min(
+
+        28800,
+
+        Math.max(
+            0,
+            (now-(game.lastSeen||now))/1000
+        )
+
+    );
+
+    const reward=
+        incomePerSecond()*elapsed*.20;
+
+    addCoins(reward);
+
+    game.lastSeen=now;
+
+    game.offlineReward=reward;
+
+}
+
+
+/* =====================================
+   8. 저장 시스템
+===================================== */
+
+function saveGame() {
+
+    game.lastSeen=Date.now();
+
+    try {
+
+        localStorage.setItem(
+
+            "pokemonWorldSave",
+
+            JSON.stringify(game)
+
+        );
+
+    } catch(e) {
+
+        console.error("로컬 저장 실패",e);
+
+    }
+
+    if(user&&db) {
+
+        clearTimeout(cloudTimer);
+
+        cloudTimer=setTimeout(async()=>{
+
+            try {
+
+                const {doc,setDoc}=await import(
+
+                    "https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js"
+
+                );
+
+                await setDoc(
+
+                    doc(db,"users",user.uid),
+
+                    {
+
+                        state:game,
+
+                        updatedAt:Date.now()
+
+                    }
+
+                );
+
+            } catch(e) {
+
+                console.error("클라우드 저장 실패",e);
+
+            }
+
+        },1500);
+
+    }
+
+}
+
+async function loadCloud(u) {
+
+    try {
+
+        const {doc,getDoc,setDoc}=await import(
+
+            "https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js"
+
+        );
+
+        const ref=doc(db,"users",u.uid);
+
+        const snap=await getDoc(ref);
+
+        if(snap.exists()&&snap.data().state) {
+
+            game=normalize(snap.data().state);
+
+            grantOffline();
+
+        } else {
+
+            await setDoc(ref,{
+
+                state:game,
+
+                updatedAt:Date.now()
+
+            });
+
+        }
+
+        saveGame();
+
+        render();
+
+        setStatus("☁️ 클라우드 동기화 완료");
+
+    } catch(e) {
+
+        console.error(e);
+
+        setStatus("클라우드 동기화 실패");
+
+    }
+
+}
+
+
+/* =====================================
+   9. Firebase 계정
+===================================== */
+
+const FIREBASE_CONFIG={
+
+    apiKey:"YOUR_API_KEY",
+
+    authDomain:"YOUR_PROJECT.firebaseapp.com",
+
+    projectId:"YOUR_PROJECT",
+
+    storageBucket:"YOUR_PROJECT.firebasestorage.app",
+
+    messagingSenderId:"YOUR_SENDER_ID",
+
+    appId:"YOUR_APP_ID"
+
+};
+
+function setStatus(text) {
+
+    const el=document.getElementById(
+        "accountStatus"
+    );
+
+    if(el) el.textContent=text;
+
+}
+
+async function initFirebase() {
+
+    if(FIREBASE_CONFIG.apiKey==="YOUR_API_KEY") {
+
+        setStatus("게스트 모드 - 로컬 저장 사용 중");
+
+        return;
+
+    }
+
+    try {
+
+        const appModule=await import(
+
+            "https://www.gstatic.com/firebasejs/11.6.0/firebase-app.js"
+
+        );
+
+        const authModule=await import(
+
+            "https://www.gstatic.com/firebasejs/11.6.0/firebase-auth.js"
+
+        );
+
+        const firestoreModule=await import(
+
+            "https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js"
+
+        );
+
+        const app=appModule.initializeApp(
+            FIREBASE_CONFIG
+        );
+
+        auth=authModule.getAuth(app);
+
+        db=firestoreModule.getFirestore(app);
+
+        authModule.onAuthStateChanged(
+            auth,
+            async u=>{
+
+                user=u;
+
+                if(u) {
+
+                    await loadCloud(u);
+
+                } else {
+
+                    setStatus("게스트 모드");
+
+                    render();
+
+                }
+
+            }
+        );
+
+    } catch(e) {
+
+        console.error(e);
+
+        setStatus("Firebase 연결 오류");
+
+    }
+
+}
+
+async function googleLogin() {
+
+    if(!auth) {
+
+        alert("Firebase 설정을 먼저 완료하세요.");
+
+        return;
+
+    }
+
+    const {GoogleAuthProvider,signInWithPopup}=await import(
+
+        "https://www.gstatic.com/firebasejs/11.6.0/firebase-auth.js"
+
+    );
+
+    try {
+
+        await signInWithPopup(
+            auth,
+            new GoogleAuthProvider()
+        );
+
+    } catch(e) {
+
+        alert(e.message);
+
+    }
+
+}
+
+async function emailLogin(create=false) {
+
+    if(!auth) {
+
+        alert("Firebase 설정이 필요합니다.");
+
+        return;
+
+    }
+
+    const email=document.getElementById("email").value;
+
+    const password=document.getElementById("password").value;
+
+    if(!email||!password) {
+
+        alert("이메일과 비밀번호를 입력하세요.");
+
+        return;
+
+    }
+
+    const m=await import(
+
+        "https://www.gstatic.com/firebasejs/11.6.0/firebase-auth.js"
+
+    );
+
+    try {
+
+        if(create) {
+
+            await m.createUserWithEmailAndPassword(
+                auth,email,password
+            );
+
+        } else {
+
+            await m.signInWithEmailAndPassword(
+                auth,email,password
+            );
+
+        }
+
+    } catch(e) {
+
+        alert(e.message);
+
+    }
+
+}
+
+async function logout() {
+
+    if(auth) {
+
+        const m=await import(
+
+            "https://www.gstatic.com/firebasejs/11.6.0/firebase-auth.js"
+
+        );
+
+        await m.signOut(auth);
+
+    }
+
+}
+
+
+/* =====================================
+   10. 포켓몬 뽑기
+===================================== */
+
+// 희귀도별 확률 배율
+// 전설은 환상보다 낮은 확률
+
+const RARITY_WEIGHT={
+
+    "일반":1,
+
+    "희귀":.45,
+
+    "에픽":.18,
+
+    "환상":.012,
+
+    "전설":.003
+
+};
+
+function getGachaWeight(p) {
+
+    const base=p.weight??10;
+
+    const multiplier=
+        RARITY_WEIGHT[p.rarity]??.5;
+
+    return base*multiplier;
+
+}
+
+function gachaCost(amount=1) {
+
+    let total=0;
+
+    const start=Math.min(
+        game.gachaCount,
+        200
+    );
+
+    for(let i=0;i<amount;i++) {
+
+        total+=300*Math.pow(
+
+            1.18,
+
+            Math.min(start+i,200)
+
+        );
+
+    }
+
+    return Math.ceil(total);
+
+}
+
+function randomPokemon() {
+
+    let pool=GACHA_POOL;
+
+    // 20회째 고등급 보장
+    if(game.pity>=19) {
+
+        pool=pool.filter(p=>
+
+            ["에픽","환상","전설"].includes(
+                p.rarity
+            )
+
+        );
+
+    }
+
+    if(!pool.length) {
+
+        pool=GACHA_POOL;
+
+    }
+
+    const total=pool.reduce(
+
+        (a,p)=>a+getGachaWeight(p),
+
+        0
+
+    );
+
+    let roll=Math.random()*total;
+
+    for(const p of pool) {
+
+        roll-=getGachaWeight(p);
+
+        if(roll<=0) {
+
+            return p;
+
+        }
+
+    }
+
+    return pool[0];
+
+}
+
+function gachaPull(amount=1) {
+
+    const cost=gachaCost(amount);
+
+    if(game.coins<cost) {
+
+        alert("코인이 부족합니다!");
+
+        return;
+
+    }
+
+    game.coins-=cost;
+
+    const results=[];
+
+    for(let i=0;i<amount;i++) {
+
+        const p=randomPokemon();
+
+        results.push(p.id);
+
+        game.dexSeen[p.id]=true;
+
+        if(
+
+            ["에픽","환상","전설"].includes(
+                p.rarity
+            )
+
+        ) {
+
+            game.pity=0;
+
+        } else {
+
+            game.pity++;
+
+        }
+
+        if(!game.owned[p.id]) {
+
+            game.owned[p.id]=createOwned(0);
+
+        }
+
+        game.owned[p.id].count++;
+
+        game.gachaCount++;
+
+    }
+
+    game.lastPulls=results;
+
+    saveGame();
+
+    render();
+
+}
+
+
+/* =====================================
+   11. 진화 시스템
+===================================== */
+
+// 1차 진화 Lv.20
+// 2차 진화 Lv.40
+// 리오르 Lv.30
+
+function evolutionLevel(p) {
+
+    if(p.id==="riolu") {
+
+        return 30;
+
+    }
+
+    if(p.stage===1) {
+
+        return 20;
+
+    }
+
+    if(p.stage===2) {
+
+        return 40;
+
+    }
+
+    return 20;
+
+}
+
+function levelCost(id) {
+
+    const p=PM[id];
+
+    const own=game.owned[id];
+
+    return Math.ceil(
+
+        Math.max(50,p.income*15)*
+
+        Math.pow(own.level,1.65)
+
+    );
+
+}
+
+function levelPokemon(id) {
+
+    const own=game.owned[id];
+
+    const p=PM[id];
+
+    if(!own||!p) return;
+
+    const required=evolutionLevel(p);
+
+    if(p.evo&&own.level>=required) {
+
+        evolvePokemon(id);
+
+        return;
+
+    }
+
+    const cost=levelCost(id);
+
+    if(game.coins<cost) {
+
+        alert("코인이 부족합니다!");
+
+        return;
+
+    }
+
+    game.coins-=cost;
+
+    own.level++;
+
+    if(p.evo&&own.level>=required) {
+
+        evolvePokemon(id);
+
+        return;
+
+    }
+
+    saveGame();
+
+    render();
+
+}
+
+function evolvePokemon(id) {
+
+    const p=PM[id];
+
+    const own=game.owned[id];
+
+    if(!p||!p.evo||!own) return;
+
+    const next=PM[p.evo];
+
+    if(!next) return;
+
+    if(own.count<=0) return;
+
+    const evolvedCount=own.count;
+
+    // 진화형이 없으면 새로 생성
+    if(!game.owned[p.evo]) {
+
+        game.owned[p.evo]=createOwned(
+            0,
+            own.level
+        );
+
+    }
+
+    const target=game.owned[p.evo];
+
+    // 기존 수량을 진화형으로 이동
+    target.count+=evolvedCount;
+
+    // 기존 레벨 승계
+    target.level=Math.max(
+        target.level,
+        own.level
+    );
+
+    // 장착 도구 승계
+    for(const item of own.items||[]) {
+
+        if(target.items.length<2) {
+
+            target.items.push(item);
+
+        } else {
+
+            game.itemBag[item]=
+                (game.itemBag[item]||0)+1;
+
+        }
+
+    }
+
+    // 기존 포켓몬 완전히 제거
+    delete game.owned[id];
+
+    // 도감에는 진화 기록 유지
+    game.dexSeen[id]=true;
+
+    game.dexSeen[p.evo]=true;
+
+    saveGame();
+
+    render();
+
+    alert(
+
+        "✨ 진화 완료!\n\n"+
+
+        p.name+" → "+next.name+
+
+        "\n\n보유 개체 "+evolvedCount+"마리 진화!"
+
+    );
+
+}
+
+
+/* =====================================
+   12. 도구 시스템
+===================================== */
+
+function buyItem(id) {
+
+    const item=ITEMS.find(x=>x.id===id);
+
+    if(!item) return;
+
+    if(game.coins<item.price) {
+
+        alert("코인이 부족합니다!");
+
+        return;
+
+    }
+
+    game.coins-=item.price;
+
+    game.itemBag[id]=
+        (game.itemBag[id]||0)+1;
+
+    saveGame();
+
+    render();
+
+}
+
+function itemUpgradeCost(id) {
+
+    const item=ITEMS.find(x=>x.id===id);
+
+    const lv=game.itemLevels[id]||0;
+
+    return Math.ceil(
+
+        item.price*Math.pow(2.2,lv)
+
+    );
+
+}
+
+function upgradeItem(id) {
+
+    const item=ITEMS.find(x=>x.id===id);
+
+    if(!item) return;
+
+    const cost=itemUpgradeCost(id);
+
+    if(game.coins<cost) {
+
+        alert("코인이 부족합니다!");
+
+        return;
+
+    }
+
+    game.coins-=cost;
+
+    game.itemLevels[id]=
+        (game.itemLevels[id]||0)+1;
+
+    saveGame();
+
+    render();
+
+}
+
+function equipItem(pokemonId,itemId) {
+
+    const own=game.owned[pokemonId];
+
+    if(!own) return;
+
+    if(!game.itemBag[itemId]) return;
+
+    if(own.items.length>=2) {
+
+        alert("포켓몬당 도구는 최대 2개입니다.");
+
+        return;
+
+    }
+
+    own.items.push(itemId);
+
+    game.itemBag[itemId]--;
+
+    saveGame();
+
+    render();
+
+}
+
+function unequipItem(pokemonId,itemId) {
+
+    const own=game.owned[pokemonId];
+
+    if(!own) return;
+
+    own.items=own.items.filter(
+        x=>x!==itemId
+    );
+
+    game.itemBag[itemId]=
+        (game.itemBag[itemId]||0)+1;
+
+    saveGame();
+
+    render();
+
+}
+
+
+/* =====================================
+   13. 메가진화 및 거다이맥스
+===================================== */
+
+function formCost(id,kind) {
+
+    const own=game.owned[id];
+
+    const count=kind==="mega"
+
+        ?own.megaUnlocked.length
+
+        :(own.gmaxUnlocked?1:0);
+
+    const base=kind==="mega"
+        ?50000
+        :100000;
+
+    return Math.ceil(
+        base*Math.pow(2,count)
+    );
+
+}
+
+function unlockMega(id,variant) {
+
+    const p=PM[id];
+
+    const own=game.owned[id];
+
+    if(!p?.mega||!own) return;
+
+    if(!p.mega.includes(variant)) return;
+
+    if(own.megaUnlocked.includes(variant)) return;
+
+    const cost=formCost(id,"mega");
+
+    if(game.coins<cost) {
+
+        alert("코인이 부족합니다!");
+
+        return;
+
+    }
+
+    game.coins-=cost;
+
+    own.megaUnlocked.push(variant);
+
+    saveGame();
+
+    render();
+
+}
+
+function toggleMega(id,variant) {
+
+    const own=game.owned[id];
+
+    if(!own) return;
+
+    if(!own.megaUnlocked.includes(variant)) return;
+
+    if(own.megaActive===variant) {
+
+        own.megaActive="";
+
+    } else {
+
+        own.megaActive=variant;
+
+        // 메가진화와 거다이맥스는 동시 적용 불가
+        own.gmaxActive=false;
+
+    }
+
+    saveGame();
+
+    render();
+
+}
+
+function unlockGmax(id) {
+
+    const p=PM[id];
+
+    const own=game.owned[id];
+
+    if(!p?.gmax||!own) return;
+
+    if(own.gmaxUnlocked) return;
+
+    const cost=formCost(id,"gmax");
+
+    if(game.coins<cost) {
+
+        alert("코인이 부족합니다!");
+
+        return;
+
+    }
+
+    game.coins-=cost;
+
+    own.gmaxUnlocked=true;
+
+    saveGame();
+
+    render();
+
+}
+
+function toggleGmax(id) {
+
+    const own=game.owned[id];
+
+    if(!own||!own.gmaxUnlocked) return;
+
+    own.gmaxActive=!own.gmaxActive;
+
+    if(own.gmaxActive) {
+
+        own.megaActive="";
+
+    }
+
+    saveGame();
+
+    render();
+
+}
+
+
+/* =====================================
+   14. 기본 강화
+===================================== */
+
+const UPGRADES={
+
+    click:{
+
+        key:"clickLevel",
+
+        name:"클릭 강화",
+
+        desc:"직접 클릭 수익 증가",
+
+        base:100,
+
+        growth:1.8
+
+    },
+
+    auto:{
+
+        key:"autoLevel",
+
+        name:"자동 생산",
+
+        desc:"자동 생산 능력 증가",
+
+        base:500,
+
+        growth:1.85
+
+    },
+
+    global:{
+
+        key:"globalLevel",
+
+        name:"전체 강화",
+
+        desc:"모든 수익 증가",
+
+        base:2000,
+
+        growth:1.9
+
+    }
+
+};
+
+function basicCost(type) {
+
+    const u=UPGRADES[type];
+
+    return Math.ceil(
+
+        u.base*Math.pow(
+
+            u.growth,
+
+            game[u.key]
+
+        )
+
+    );
+
+}
+
+function upgradeBasic(type) {
+
+    const u=UPGRADES[type];
+
+    const cost=basicCost(type);
+
+    if(game.coins<cost) {
+
+        alert("코인이 부족합니다!");
+
+        return;
+
+    }
+
+    game.coins-=cost;
+
+    game[u.key]++;
+
+    saveGame();
+
+    render();
+
+}
+
+
+/* =====================================
+   15. 환생
+===================================== */
+
+function rebirthRequirement() {
+
+    return Math.floor(
+
+        100000*Math.pow(
+            1.8,
+            game.rebirth
+        )
+
+    );
+
+}
+
+function rebirth() {
+
+    const requirement=rebirthRequirement();
+
+    if(game.coins<requirement) {
+
+        alert("환생 조건을 달성하지 못했습니다.");
+
+        return;
+
+    }
+
+    if(!confirm(
+
+        "환생하시겠습니까?\n"+
+
+        "포켓몬과 일반 코인이 초기화됩니다."
+
+    )) return;
+
+    const reward=Math.max(
+
+        1,
+
+        Math.floor(
+
+            Math.sqrt(
+                game.coins/requirement
+            )*2
+
+        )
+
+    );
+
+    game.shards+=reward;
+
+    game.coins=0;
+
+    game.owned={
+
+        pikachu:createOwned(1)
+
+    };
+
+    game.itemBag={};
+
+    game.clickLevel=0;
+
+    game.autoLevel=0;
+
+    game.globalLevel=0;
+
+    game.gachaCount=0;
+
+    game.pity=0;
+
+    game.rebirth++;
+
+    saveGame();
+
+    render();
+
+    alert(
+        "⭐ 별의 조각 "+reward+"개 획득!"
+    );
+
+}
+
+
+/* =====================================
+   16. 초월
+===================================== */
+
+function transcend() {
+
+    if(
+        game.rebirth<10||
+        game.lifetime<10000000
+    ) {
+
+        alert(
+            "환생 10회 및 누적 코인 1천만이 필요합니다."
+        );
+
+        return;
+
+    }
+
+    if(!confirm("초월하시겠습니까?")) return;
+
+    const reward=Math.max(
+
+        1,
+
+        Math.floor(
+            Math.sqrt(game.shards/10)
+        )
+
+    );
+
+    game.cores+=reward;
+
+    game.coins=0;
+
+    game.owned={
+
+        pikachu:createOwned(1)
+
+    };
+
+    game.itemBag={};
+
+    game.clickLevel=0;
+
+    game.autoLevel=0;
+
+    game.globalLevel=0;
+
+    game.rebirth=0;
+
+    game.shards=0;
+
+    game.gachaCount=0;
+
+    game.pity=0;
+
+    game.transcend++;
+
+    saveGame();
+
+    render();
+
+    alert(
+        "🌌 차원의 핵 "+reward+"개 획득!"
+    );
+
+}
+
+
+/* =====================================
+   17. 차원 균열
+===================================== */
+
+function riftHP() {
+
+    return Math.floor(
+
+        1000*Math.pow(
+            1.65,
+            game.floor
+        )
+
+    );
+
+}
+
+function attackRift() {
+
+    if(game.transcend<1) {
+
+        alert("초월 1회 이상 필요합니다.");
+
+        return;
+
+    }
+
+    const damage=clickValue()*25;
+
+    game.riftDamage+=damage;
+
+    if(game.riftDamage>=riftHP()) {
+
+        game.floor++;
+
+        const reward=5+game.floor*2;
+
+        game.fragments+=reward;
+
+        game.riftDamage=0;
+
+        alert(
+
+            "👑 보스 처치!\n"+
+
+            "차원 파편 "+reward+"개 획득!"
+
+        );
+
+    }
+
+    saveGame();
+
+    render();
+
+}
+
+
+/* =====================================
+   18. 유물
+===================================== */
+
+const RELICS=[
+
+    {id:"power",name:"황금 심장",price:10},
+
+    {id:"time",name:"시간의 시계",price:15},
+
+    {id:"infinite",name:"무한의 렌즈",price:20},
+
+    {id:"space",name:"공간의 결정",price:30},
+
+    {id:"origin",name:"태초의 조각",price:50}
+
+];
+
+function buyRelic(id) {
+
+    const relic=RELICS.find(
+        x=>x.id===id
+    );
+
+    if(!relic) return;
+
+    const lv=game.relics[id]||0;
+
+    const cost=Math.ceil(
+
+        relic.price*Math.pow(2,lv)
+
+    );
+
+    if(game.fragments<cost) {
+
+        alert("차원 파편이 부족합니다!");
+
+        return;
+
+    }
+
+    game.fragments-=cost;
+
+    game.relics[id]=lv+1;
+
+    saveGame();
+
+    render();
+
+}
+
+
+/* =====================================
+   19. 무한 성장
+===================================== */
+
+function infinityUnlocked() {
+
+    return game.floor>=25||game.transcend>=3;
+
+}
+
+function infinityCost() {
+
+    return Math.ceil(
+
+        1000*Math.pow(
+            1.5,
+            game.infinityLevel
+        )
+
+    );
+
+}
+
+function upgradeInfinity() {
+
+    if(!infinityUnlocked()) {
+
+        alert("차원 25층 또는 초월 3회가 필요합니다.");
+
+        return;
+
+    }
+
+    const cost=infinityCost();
+
+    if(game.fragments<cost) {
+
+        alert("차원 파편이 부족합니다.");
+
+        return;
+
+    }
+
+    game.fragments-=cost;
+
+    game.infinityLevel++;
+
+    saveGame();
+
+    render();
+
+}
+
+
+/* =====================================
+   20. 공식 포켓몬 아트워크
+===================================== */
+
+const ART_URL=
+"https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/";
+
+const MEGA_IMAGES={
+
+    "venusaur-일반":10033,
+
+    "charizard-X":10034,
+
+    "charizard-Y":10035,
+
+    "blastoise-일반":10036,
+
+    "gengar-일반":10038,
+
+    "tyranitar-일반":10049,
+
+    "blaziken-일반":10050,
+
+    "gardevoir-일반":10051,
+
+    "garchomp-일반":10058,
+
+    "lucario-일반":10059,
+
+    "rayquaza-일반":10079
+
+};
+
+const GMAX_IMAGES={
+
+    venusaur:10195,
+
+    charizard:10196,
+
+    blastoise:10197,
+
+    pikachu:10199,
+
+    gengar:10202,
+
+    eevee:10205
+
+};
+
+function pokemonBaseImage(p) {
+
+    return ART_URL+p.dex+".png";
+
+}
+
+function pokemonImage(p,own=null) {
+
+    if(own?.gmaxActive) {
+
+        const dex=GMAX_IMAGES[p.id];
+
+        if(dex) {
+
+            return ART_URL+dex+".png";
+
+        }
+
+    }
+
+    if(own?.megaActive) {
+
+        const key=p.id+"-"+own.megaActive;
+
+        const dex=MEGA_IMAGES[key];
+
+        if(dex) {
+
+            return ART_URL+dex+".png";
+
+        }
+
+    }
+
+    return pokemonBaseImage(p);
+
+}
+
+function itemImage(item) {
+
+    return (
+
+        "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/"+
+
+        item.sprite+
+
+        ".png"
+
+    );
+
+}
+
+
+/* =====================================
+   21. 홈 화면
+===================================== */
+
+function renderHome() {
+
+    const income=incomePerSecond();
+
+    const firstId=Object.keys(game.owned).find(
+        id=>PM[id]
+    );
+
+    const p=PM[firstId]||PM.pikachu;
+
+    const own=game.owned[p.id];
+
+    return `
+
+    <section class="panel click-area">
+
+        <h2>⚡ 포켓몬 클리커</h2>
+
+        <p>
+            클릭 수익:
+            <span class="gold">${fmt(clickValue())}</span>
+        </p>
+
+        <p>
+            초당 수익:
+            <span class="gold live-income">${fmt(income)}</span>
+        </p>
+
+        <p>콤보: ${combo}</p>
+
+        <img
+
+            class="main-pokemon"
+
+            src="${pokemonImage(p,own)}"
+
+            onerror="this.onerror=null;this.src='${pokemonBaseImage(p)}'"
+
+            data-action="mine"
+
+        >
+
+        <button class="click-button" data-action="mine">
+
+            💥 클릭!
+
+        </button>
+
+    </section>
+
+    <section class="panel">
+
+        <h2>📊 성장 정보</h2>
+
+        <div class="grid">
+
+            <div class="card">
+
+                <h3>포켓몬</h3>
+
+                <h2>${Object.values(game.owned).reduce((a,b)=>a+b.count,0)}</h2>
+
+            </div>
+
+            <div class="card">
+
+                <h3>환생</h3>
+
+                <h2>${game.rebirth}</h2>
+
+            </div>
+
+            <div class="card">
+
+                <h3>초월</h3>
+
+                <h2>${game.transcend}</h2>
+
+            </div>
+
+            <div class="card">
+
+                <h3>차원</h3>
+
+                <h2>${game.floor}층</h2>
+
+            </div>
+
+        </div>
+
+    </section>
+
+    <section class="panel">
+
+        <h2>♻️ 환생</h2>
+
+        <p>필요 코인: ${fmt(rebirthRequirement())}</p>
+
+        <button data-action="rebirth">
+
+            ⭐ 환생하기
+
+        </button>
+
+    </section>
+
+    <section class="panel">
+
+        <h2>🌌 초월</h2>
+
+        <p>환생 10회 및 누적 코인 1천만 필요</p>
+
+        <button data-action="transcend">
+
+            초월하기
+
+        </button>
+
+    </section>
+
+    `;
+
+}
+
+
+/* =====================================
+   22. 뽑기 화면
+===================================== */
+
+function gachaRate(rarity) {
+
+    const total=GACHA_POOL.reduce(
+
+        (a,p)=>a+getGachaWeight(p),
+
+        0
+
+    );
+
+    const weight=GACHA_POOL.filter(
+
+        p=>p.rarity===rarity
+
+    ).reduce(
+
+        (a,p)=>a+getGachaWeight(p),
+
+        0
+
+    );
+
+    return total?weight/total:0;
+
+}
+
+function renderGacha() {
+
+    const cost1=gachaCost(1);
+
+    const cost10=gachaCost(10);
+
+    let result="";
+
+    for(const id of game.lastPulls||[]) {
+
+        const p=PM[id];
+
+        if(!p) continue;
+
+        result+=`
+
+            <div class="card">
+
+                <img
+
+                    src="${pokemonImage(p)}"
+
+                    onerror="this.onerror=null;this.src='${pokemonBaseImage(p)}'"
+
+                >
+
+                <h3>${p.name}</h3>
+
+                <span class="tag">${p.rarity}</span>
+
+            </div>
+
+        `;
+
+    }
+
+    return `
+
+    <section class="panel">
+
+        <h2>🎰 포켓몬 뽑기</h2>
+
+        <p>포켓몬을 뽑아 자동 생산 수익을 늘리세요!</p>
+
+        <p>누적 뽑기: ${game.gachaCount}회</p>
+
+        <p>다음 고등급 보장까지: ${Math.max(0,20-game.pity)}회</p>
+
+        <div class="grid">
+
+            <div class="card">
+
+                <h3>1회 뽑기</h3>
+
+                <p class="price">${fmt(cost1)} 코인</p>
+
+                <button data-action="gacha1">
+
+                    1회 뽑기
+
+                </button>
+
+            </div>
+
+            <div class="card">
+
+                <h3>10회 뽑기</h3>
+
+                <p class="price">${fmt(cost10)} 코인</p>
+
+                <button data-action="gacha10">
+
+                    10회 뽑기
+
+                </button>
+
+            </div>
+
+        </div>
+
+    </section>
+
+    <section class="panel">
+
+        <h2>📊 기본 뽑기 확률</h2>
+
+        <p>일반: ${fmtPercent(gachaRate("일반"))}</p>
+
+        <p>희귀: ${fmtPercent(gachaRate("희귀"))}</p>
+
+        <p>환상: ${fmtPercent(gachaRate("환상"))}</p>
+
+        <p>전설: ${fmtPercent(gachaRate("전설"))}</p>
+
+        <p class="muted">
+
+            전설 포켓몬은 환상 포켓몬보다 낮은 확률로 등장합니다.
+
+            고등급 보장 시 확률은 달라집니다.
+
+        </p>
+
+    </section>
+
+    <section class="panel">
+
+        <h2>🎁 최근 뽑기 결과</h2>
+
+        <div class="grid">
+
+            ${result||"<p>아직 뽑기 기록이 없습니다.</p>"}
+
+        </div>
+
+    </section>
+
+    `;
+
+}
+
+
+/* =====================================
+   23. 포켓몬 관리
+===================================== */
+
+function renderPokemon() {
+
+    let html=`
+
+    <section class="panel">
+
+        <h2>🐉 나의 포켓몬</h2>
+
+        <p>
+
+            포켓몬은 보유한 수만큼 자동으로 코인을 생산합니다.
+
+        </p>
+
+        <p class="muted">
+
+            진화하면 기존 포켓몬은 사라지고 진화형으로 교체됩니다.
+
+        </p>
+
+    </section>
+
+    <div class="grid">
+
+    `;
+
+    let found=false;
+
+    for(const id in game.owned) {
+
+        const own=game.owned[id];
+
+        const p=PM[id];
+
+        if(!p||own.count<=0) continue;
+
+        found=true;
+
+        const cost=levelCost(id);
+
+        const required=evolutionLevel(p);
+
+        const equipped=own.items.map(itemId=>{
+
+            const item=ITEMS.find(
+                x=>x.id===itemId
+            );
+
+            if(!item) return "";
+
+            return `
+
+                <span class="tag">
+
+                    ${item.name}
+
+                    <button
+
+                        data-action="unequip"
+
+                        data-id="${id}"
+
+                        data-item="${itemId}"
+
+                    >×</button>
+
+                </span>
+
+            `;
+
+        }).join("");
+
+        const options=ITEMS.filter(
+
+            item=>(game.itemBag[item.id]||0)>0
+
+        ).map(item=>`
+
+            <option value="${item.id}">
+
+                ${item.name}
+
+                (${game.itemBag[item.id]}개)
+
+            </option>
+
+        `).join("");
+
+        let forms="";
+
+        if(p.mega) {
+
+            for(const variant of p.mega) {
+
+                const unlocked=
+                    own.megaUnlocked.includes(variant);
+
+                const active=
+                    own.megaActive===variant;
+
+                forms+=`
+
+                    <button
+
+                        data-action="${unlocked?"toggleMega":"unlockMega"}"
+
+                        data-id="${id}"
+
+                        data-variant="${variant}"
+
+                    >
+
+                        ${unlocked
+
+                            ?(active?"메가진화 해제":"메가진화 "+variant+" 활성화")
+
+                            :"메가진화 "+variant+" 해금 ("+fmt(formCost(id,"mega"))+")"
+
+                        }
+
+                    </button>
+
+                `;
+
+            }
+
+        }
+
+        if(p.gmax) {
+
+            forms+=`
+
+                <button
+
+                    data-action="${own.gmaxUnlocked?"toggleGmax":"unlockGmax"}"
+
+                    data-id="${id}"
+
+                >
+
+                    ${own.gmaxUnlocked
+
+                        ?(own.gmaxActive?"거다이맥스 해제":"거다이맥스 활성화")
+
+                        :"거다이맥스 해금 ("+fmt(formCost(id,"gmax"))+")"
+
+                    }
+
+                </button>
+
+            `;
+
+        }
+
+        const formText=
+
+            (own.megaActive?"메가진화 "+own.megaActive:"")+
+
+            (own.gmaxActive?"거다이맥스":"");
+
+        html+=`
+
+        <div class="card">
+
+            <img
+
+                src="${pokemonImage(p,own)}"
+
+                onerror="this.onerror=null;this.src='${pokemonBaseImage(p)}'"
+
+            >
+
+            <h3>${p.name}</h3>
+
+            <span class="tag">${p.rarity}</span>
+
+            <span class="tag">${p.type}</span>
+
+            <p>보유: ${own.count}마리</p>
+
+            <p>레벨: ${own.level}</p>
+
+            ${p.evo
+
+                ?`<p class="purple">진화 필요 레벨: ${required}</p>`
+
+                :``
+
+            }
+
+            <p class="gold">
+
+                개체당 수익:
+
+                ${fmt(
+
+                    p.income*(1+(own.level-1)*.18)
+
+                )}
+
+            </p>
+
+            <p class="purple">${formText}</p>
+
+            <button
+
+                data-action="level"
+
+                data-id="${id}"
+
+            >
+
+                레벨업 (${fmt(cost)} 코인)
+
+            </button>
+
+            <hr>
+
+            <p>장착 도구</p>
+
+            ${equipped||"<p class='muted'>장착한 도구 없음</p>"}
+
+            <select data-equip-select="${id}">
+
+                ${options||'<option value="">보유 도구 없음</option>'}
+
+            </select>
+
+            <button
+
+                data-action="equip"
+
+                data-id="${id}"
+
+            >
+
+                도구 장착
+
+            </button>
+
+            ${forms}
+
+        </div>
+
+        `;
+
+    }
+
+    if(!found) {
+
+        html+=`
+
+        <div class="panel">
+
+            아직 포켓몬이 없습니다.
+
+            뽑기에서 포켓몬을 획득하세요!
+
+        </div>
+
+        `;
+
+    }
+
+    html+="</div>";
+
+    return html;
+
+}
+
+
+/* =====================================
+   24. 강화 상점
+===================================== */
+
+function renderShop() {
+
+    let html=`
+
+    <section class="panel">
+
+        <h2>⚡ 기본 강화</h2>
+
+        <div class="grid">
+
+    `;
+
+    for(const id in UPGRADES) {
+
+        const u=UPGRADES[id];
+
+        const cost=basicCost(id);
+
+        html+=`
+
+            <div class="card">
+
+                <h3>${u.name}</h3>
+
+                <p>${u.desc}</p>
+
+                <p>레벨: ${game[u.key]}</p>
+
+                <p class="price">${fmt(cost)} 코인</p>
+
+                <button
+
+                    data-action="upgrade"
+
+                    data-id="${id}"
+
+                >
+
+                    강화하기
+
+                </button>
+
+            </div>
+
+        `;
+
+    }
+
+    html+=`
+
+        </div>
+
+    </section>
+
+    <section class="panel">
+
+        <h2>🎒 포켓몬 도구 상점</h2>
+
+        <div class="grid">
+
+    `;
+
+    for(const item of ITEMS) {
+
+        const level=game.itemLevels[item.id]||0;
+
+        const count=game.itemBag[item.id]||0;
+
+        const cost=itemUpgradeCost(item.id);
+
+        html+=`
+
+            <div class="card">
+
+                <img
+
+                    class="item-image"
+
+                    src="${itemImage(item)}"
+
+                    onerror="this.style.display='none'"
+
+                >
+
+                <h3>${item.name}</h3>
+
+                <p>${item.type} 타입 효과</p>
+
+                <p>보유: ${count}개</p>
+
+                <p>강화 레벨: ${level}</p>
+
+                <p class="price">${fmt(item.price)} 코인</p>
+
+                <button
+
+                    data-action="buyItem"
+
+                    data-id="${item.id}"
+
+                >
+
+                    구매
+
+                </button>
+
+                <button
+
+                    data-action="upgradeItem"
+
+                    data-id="${item.id}"
+
+                >
+
+                    도구 강화 (${fmt(cost)})
+
+                </button>
+
+            </div>
+
+        `;
+
+    }
+
+    html+="</div></section>";
+
+    return html;
+
+}
+
+
+/* =====================================
+   25. 차원 시스템
+===================================== */
+
+function renderRift() {
+
+    const hp=riftHP();
+
+    const progress=Math.min(
+
+        100,
+
+        game.riftDamage/hp*100
+
+    );
+
+    let html=`
+
+    <section class="panel">
+
+        <h2>🌌 무한 차원 균열</h2>
+
+        <p>현재 층수: ${game.floor}층</p>
+
+        <p>초월 횟수: ${game.transcend}</p>
+
+        <p>보스 체력: ${fmt(hp)}</p>
+
+        <div class="progress">
+
+            <div style="width:${progress}%"></div>
+
+        </div>
+
+        <p>${progress.toFixed(1)}%</p>
+
+        <button data-action="attack">
+
+            ⚔️ 보스 공격
+
+        </button>
+
+    </section>
+
+    <section class="panel">
+
+        <h2>💎 차원 유물 연구</h2>
+
+        <div class="grid">
+
+    `;
+
+    for(const relic of RELICS) {
+
+        const lv=game.relics[relic.id]||0;
+
+        const cost=Math.ceil(
+
+            relic.price*Math.pow(2,lv)
+
+        );
+
+        html+=`
+
+            <div class="card">
+
+                <h3>${relic.name}</h3>
+
+                <p>레벨 ${lv}</p>
+
+                <p>전체 수익 증가</p>
+
+                <button
+
+                    data-action="relic"
+
+                    data-id="${relic.id}"
+
+                >
+
+                    연구 (${cost} 파편)
+
+                </button>
+
+            </div>
+
+        `;
+
+    }
+
+    html+="</div></section>";
+
+    return html;
+
+}
+
+
+/* =====================================
+   26. 무한 성장
+===================================== */
+
+function renderEndgame() {
+
+    if(!infinityUnlocked()) {
+
+        return `
+
+            <section class="panel">
+
+                <h2>♾️ 무한 성장 시스템</h2>
+
+                <h3>🔒 잠겨 있음</h3>
+
+                <p>다음 조건 중 하나를 달성하세요.</p>
+
+                <p>차원 25층 도달</p>
+
+                <p>초월 3회 달성</p>
+
+                <div class="progress">
+
+                    <div style="width:${Math.min(100,game.floor/25*100)}%"></div>
+
+                </div>
+
+            </section>
+
+        `;
+
+    }
+
+    const cost=infinityCost();
+
+    return `
+
+        <section class="panel">
+
+            <h2>♾️ 무한 성장</h2>
+
+            <p>후반부 플레이어를 위한 영구 성장 시스템입니다.</p>
+
+            <h3>현재 무한 레벨: ${game.infinityLevel}</h3>
+
+            <p>전체 수익 보너스: +${game.infinityLevel*10}%</p>
+
+            <p class="price">필요 파편: ${fmt(cost)}</p>
+
+            <button data-action="infinity">
+
+                무한 성장 강화
+
+            </button>
+
+        </section>
+
+    `;
+
+}
+
+
+/* =====================================
+   27. 포켓몬 도감
+===================================== */
+
+function renderCollection() {
+
+    const discovered=POKEMON.filter(
+
+        p=>game.dexSeen[p.id]||game.owned[p.id]
+
+    ).length;
+
+    let html=`
+
+        <section class="panel">
+
+            <h2>📖 포켓몬 도감</h2>
+
+            <p>수집률: ${discovered}/${POKEMON.length}</p>
+
+            <div class="progress">
+
+                <div style="width:${discovered/POKEMON.length*100}%"></div>
+
+            </div>
+
+        </section>
+
+        <div class="grid">
+
+    `;
+
+    for(const p of POKEMON) {
+
+        const own=game.owned[p.id];
+
+        const seen=!!game.dexSeen[p.id]||!!own;
+
+        html+=`
+
+            <div class="card">
+
+                <img
+
+                    src="${pokemonBaseImage(p)}"
+
+                    onerror="this.style.display='none'"
+
+                    style="${seen?"":"filter:grayscale(1);opacity:.3"}"
+
+                >
+
+                <h3>${seen?p.name:"???"}</h3>
+
+                <p>#${p.dex}</p>
+
+                <span class="tag">${seen?p.rarity:"미발견"}</span>
+
+                <p>
+
+                    ${own
+
+                        ?"보유 "+own.count+"마리"
+
+                        :(seen?"도감 등록 / 미보유":"미발견")
+
+                    }
+
+                </p>
+
+            </div>
+
+        `;
+
+    }
+
+    html+="</div>";
+
+    return html;
+
+}
+
+
+/* =====================================
+   28. 계정 화면
+===================================== */
+
+function renderAccount() {
+
+    return `
+
+        <section class="panel">
+
+            <h2>👤 계정 및 클라우드 저장</h2>
+
+            <p id="accountStatus">
+
+                ${user?"로그인 상태":"게스트 모드"}
+
+            </p>
+
+            <p class="muted">
+
+                Firebase를 연결하면 다른 기기에서도
+
+                저장 데이터를 불러올 수 있습니다.
+
+            </p>
+
+            <button data-action="google">
+
+                Google 로그인
+
+            </button>
+
+            <hr>
+
+            <input
+
+                id="email"
+
+                type="email"
+
+                placeholder="이메일"
+
+            >
+
+            <input
+
+                id="password"
+
+                type="password"
+
+                placeholder="비밀번호"
+
+            >
+
+            <br>
+
+            <button data-action="emailLogin">
+
+                로그인
+
+            </button>
+
+            <button data-action="emailCreate">
+
+                회원가입
+
+            </button>
+
+            <hr>
+
+            <button data-action="logout">
+
+                로그아웃
+
+            </button>
+
+            <p class="muted">
+
+                게스트 데이터는 현재 브라우저에 저장됩니다.
+
+            </p>
+
+        </section>
+
+    `;
+
+}
+
+
+/* =====================================
+   29. 설정 및 초기화
+===================================== */
+
+function renderSettings() {
+
+    return `
+
+        <section class="panel">
+
+            <h2>⚙️ 게임 설정</h2>
+
+            <p>Pokemon World Clicker 11.0</p>
+
+            <hr>
+
+            <h3>💾 저장 관리</h3>
+
+            <p class="muted">
+
+                현재 게임 진행 상황을 저장할 수 있습니다.
+
+            </p>
+
+            <button data-action="saveNow">
+
+                💾 지금 저장하기
+
+            </button>
+
+            <hr>
+
+            <h3>🔄 게임 초기화</h3>
+
+            <p>
+
+                모든 게임 진행 상황을 초기화하고
+
+                피카츄부터 다시 시작합니다.
+
+            </p>
+
+            <p class="muted">
+
+                포켓몬, 코인, 환생, 초월, 도감,
+
+                아이템 및 모든 성장 기록이 초기화됩니다.
+
+            </p>
+
+            <button
+
+                class="danger-button"
+
+                data-action="resetGame"
+
+            >
+
+                🗑️ 게임 데이터 초기화
+
+            </button>
+
+            <hr>
+
+            <h3>📱 화면 설정</h3>
+
+            <p class="muted">
+
+                모바일 기기는 가로 및 세로 화면을 모두 지원합니다.
+
+            </p>
+
+        </section>
+
+    `;
+
+}
+
+function resetGame() {
+
+    if(!confirm(
+
+        "정말 게임을 초기화하시겠습니까?\n"+
+
+        "모든 진행 상황이 삭제됩니다."
+
+    )) return;
+
+    if(!confirm(
+
+        "마지막 확인입니다.\n"+
+
+        "초기화 후에는 기존 진행 상황을 복구할 수 없습니다."
+
+    )) return;
+
+    clearTimeout(cloudTimer);
+
+    game=defaultGame();
+
+    try {
+
+        localStorage.removeItem(
+            "pokemonWorldSave"
+        );
+
+    } catch(e) {
+
+        console.error(e);
+
+    }
+
+    saveGame();
+
+    render();
+
+    alert(
+
+        "초기화 완료!\n\n"+
+
+        "피카츄와 함께 새로운 모험을 시작하세요!"
+
+    );
+
+}
+
+
+/* =====================================
+   30. 화면 관리
+===================================== */
+
+function updateHeader() {
+
+    document.getElementById("coins").textContent=
+        fmt(game.coins);
+
+    document.getElementById("shards").textContent=
+        fmt(game.shards);
+
+    document.getElementById("cores").textContent=
+        fmt(game.cores);
+
+    document.getElementById("fragments").textContent=
+        fmt(game.fragments);
+
+}
+
+function render() {
+
+    updateHeader();
+
+    document.querySelectorAll("[data-tab]").forEach(btn=>{
+
+        btn.classList.toggle(
+
+            "active",
+
+            btn.dataset.tab===tab
+
+        );
+
+    });
+
+    const view=document.getElementById("view");
+
+    switch(tab) {
+
+        case "home":
+
+            view.innerHTML=renderHome();
+
+            break;
+
+        case "gacha":
+
+            view.innerHTML=renderGacha();
+
+            break;
+
+        case "pokemon":
+
+            view.innerHTML=renderPokemon();
+
+            break;
+
+        case "shop":
+
+            view.innerHTML=renderShop();
+
+            break;
+
+        case "rift":
+
+            view.innerHTML=renderRift();
+
+            break;
+
+        case "endgame":
+
+            view.innerHTML=renderEndgame();
+
+            break;
+
+        case "collection":
+
+            view.innerHTML=renderCollection();
+
+            break;
+
+        case "account":
+
+            view.innerHTML=renderAccount();
+
+            break;
+
+        case "settings":
+
+            view.innerHTML=renderSettings();
+
+            break;
+
+    }
+
+}
+
+
+/* =====================================
+   31. 클릭 시스템
+===================================== */
+
+function doClick(event) {
+
+    const now=Date.now();
+
+    if(now-lastClick<700) {
+
+        combo++;
+
+    } else {
+
+        combo=1;
+
+    }
+
+    lastClick=now;
+
+    game.totalClicks++;
+
+    let gain=clickValue();
+
+    const critical=Math.random()<.08;
+
+    if(critical) {
+
+        gain*=5;
+
+    }
+
+    if(combo>=10) {
+
+        gain*=1.5;
+
+    }
+
+    addCoins(gain);
+
+    const float=document.createElement("div");
+
+    float.className="float";
+
+    float.textContent=
+
+        (critical?"💥 CRITICAL! ":"+")+
+
+        fmt(gain);
+
+    float.style.left=
+
+        (event.clientX||innerWidth/2)+"px";
+
+    float.style.top=
+
+        (event.clientY||innerHeight/2)+"px";
+
+    document.body.appendChild(float);
+
+    setTimeout(()=>float.remove(),800);
+
+    updateHeader();
+
+}
+
+
+/* =====================================
+   32. 이벤트 관리
+===================================== */
+
+document.addEventListener("click",async e=>{
+
+    const nav=e.target.closest("[data-tab]");
+
+    if(nav) {
+
+        tab=nav.dataset.tab;
+
+        render();
+
+        return;
+
+    }
+
+    const btn=e.target.closest("[data-action]");
+
+    if(!btn) return;
+
+    const action=btn.dataset.action;
+
+    const id=btn.dataset.id;
+
+    const variant=btn.dataset.variant;
+
+    switch(action) {
+
+        case "mine":
+
+            doClick(e);
+
+            break;
+
+        case "gacha1":
+
+            gachaPull(1);
+
+            break;
+
+        case "gacha10":
+
+            gachaPull(10);
+
+            break;
+
+        case "level":
+
+            levelPokemon(id);
+
+            break;
+
+        case "buyItem":
+
+            buyItem(id);
+
+            break;
+
+        case "upgradeItem":
+
+            upgradeItem(id);
+
+            break;
+
+        case "equip": {
+
+            const select=document.querySelector(
+
+                `[data-equip-select="${id}"]`
+
+            );
+
+            if(select&&select.value) {
+
+                equipItem(id,select.value);
+
+            }
+
+            break;
+
+        }
+
+        case "unequip":
+
+            unequipItem(id,btn.dataset.item);
+
+            break;
+
+        case "upgrade":
+
+            upgradeBasic(id);
+
+            break;
+
+        case "unlockMega":
+
+            unlockMega(id,variant);
+
+            break;
+
+        case "toggleMega":
+
+            toggleMega(id,variant);
+
+            break;
+
+        case "unlockGmax":
+
+            unlockGmax(id);
+
+            break;
+
+        case "toggleGmax":
+
+            toggleGmax(id);
+
+            break;
+
+        case "rebirth":
+
+            rebirth();
+
+            break;
+
+        case "transcend":
+
+            transcend();
+
+            break;
+
+        case "attack":
+
+            attackRift();
+
+            break;
+
+        case "relic":
+
+            buyRelic(id);
+
+            break;
+
+        case "infinity":
+
+            upgradeInfinity();
+
+            break;
+
+        case "google":
+
+            await googleLogin();
+
+            break;
+
+        case "emailLogin":
+
+            await emailLogin(false);
+
+            break;
+
+        case "emailCreate":
+
+            await emailLogin(true);
+
+            break;
+
+        case "logout":
+
+            await logout();
+
+            break;
+
+        case "saveNow":
+
+            saveGame();
+
+            alert("게임이 저장되었습니다.");
+
+            break;
+
+        case "resetGame":
+
+            resetGame();
+
+            break;
+
+    }
+
+});
+
+
+/* =====================================
+   33. 자동 생산
+===================================== */
+
+setInterval(()=>{
+
+    const income=incomePerSecond();
+
+    if(income>0) {
+
+        addCoins(income);
+
+    }
+
+    updateHeader();
+
+    document.querySelectorAll(".live-income").forEach(el=>{
+
+        el.textContent=fmt(income);
+
+    });
+
+},1000);
+
+
+/* =====================================
+   34. 자동 저장
+===================================== */
+
+setInterval(saveGame,5000);
+
+
+/* =====================================
+   35. 게임 시작
+===================================== */
+
+grantOffline();
+
+render();
+
+saveGame();
+
+initFirebase();
+
+</script>
+
+</body>
+</html>
